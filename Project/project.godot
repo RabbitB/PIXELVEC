@@ -1,0 +1,52 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Resource",
+"class": "XMLWriter",
+"language": "GDScript",
+"path": "res://format_writers/xml_writer.gd"
+} ]
+_global_script_class_icons={
+"XMLWriter": ""
+}
+
+[application]
+
+config/name="PIXELVEC"
+config/description="A small tool to quickly and easily convert pixel-graphics into an svg vector image."
+run/main_scene="res://main_ui/main_ui.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="dfaction/pixelvec"
+run/low_processor_mode=true
+boot_splash/image="res://icon/splash.png"
+boot_splash/bg_color=Color( 0.0627451, 0.0627451, 0.0627451, 1 )
+config/icon="res://window_buttons/convert/convert.png"
+config/windows_native_icon="res://icon/icon.ico"
+
+[display]
+
+window/size/width=280
+window/size/height=320
+window/size/resizable=false
+window/size/borderless=true
+window/size/always_on_top=true
+window/per_pixel_transparency/allowed=true
+window/per_pixel_transparency/enabled=true
+
+[gui]
+
+theme/custom="res://edg8.theme"
+
+[rendering]
+
+quality/2d/use_pixel_snap=true
+environment/default_clear_color=Color( 0.0627451, 0.0627451, 0.0627451, 1 )
+environment/default_environment="res://default_env.tres"
