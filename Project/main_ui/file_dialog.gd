@@ -51,6 +51,7 @@ func _on_about_to_show() -> void:
 	rect_size = _intended_window_size - Vector2(EDGE_MARGIN * 2, _title_margin + (EDGE_MARGIN * 2))
 	rect_global_position = Vector2(0, _title_margin)
 
+	OS.window_position -= (_intended_window_size - _default_window_size) / 2
 	OS.window_size = _intended_window_size
 
 	_ignore_rect_change = true
@@ -60,6 +61,7 @@ func _on_popup_hide() -> void:
 	_show_node_to_hide(true)
 
 	_intended_window_size = OS.window_size
+	OS.window_position += (_intended_window_size - _default_window_size) / 2
 	OS.window_size = _default_window_size
 
 	_ignore_rect_change = true
@@ -77,7 +79,11 @@ func _on_item_rect_changed() -> void:
 		return
 
 	rect_global_position = Vector2(0, _title_margin)
-	OS.window_size = rect_size + Vector2(EDGE_MARGIN * 2, _title_margin + (EDGE_MARGIN * 2))
+	
+	var new_window_size: Vector2 = rect_size + Vector2(EDGE_MARGIN * 2, _title_margin + (EDGE_MARGIN * 2))
+	var delta_size_change: Vector2 = new_window_size - OS.window_size
+	OS.window_size = new_window_size
+	OS.window_position -= delta_size_change / 2
 
 
 func _show_node_to_hide(show_node: bool):

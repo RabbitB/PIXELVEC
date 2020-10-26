@@ -1,83 +1,102 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://window_buttons/convert/convert_hover.png" type="Texture" id=2]
-[ext_resource path="res://window_buttons/convert/convert_pressed.png" type="Texture" id=3]
-[ext_resource path="res://window_buttons/convert/convert.png" type="Texture" id=4]
-[ext_resource path="res://window_buttons/close/close_hover.png" type="Texture" id=6]
-[ext_resource path="res://window_buttons/close/close.png" type="Texture" id=8]
-[ext_resource path="res://window_buttons/close/close_pressed.png" type="Texture" id=9]
-[ext_resource path="res://main_ui/main_ui.gd" type="Script" id=10]
-[ext_resource path="res://window_buttons/close/close.gd" type="Script" id=11]
-[ext_resource path="res://window_buttons/convert/convert_mask.png" type="BitMap" id=13]
+[ext_resource path="res://fonts/labels.tres" type="DynamicFont" id=1]
+[ext_resource path="res://tabs/source_images.tscn" type="PackedScene" id=2]
+[ext_resource path="res://branding/icon_16.png" type="Texture" id=3]
+[ext_resource path="res://tabs/output.tscn" type="PackedScene" id=4]
 [ext_resource path="res://edg8.theme" type="Theme" id=14]
-[ext_resource path="res://main_ui/file_dialog.gd" type="Script" id=15]
-[ext_resource path="res://window_buttons/convert/convert.gd" type="Script" id=16]
 
-[node name="MainUI" type="CenterContainer"]
+[sub_resource type="StyleBoxFlat" id=2113]
+content_margin_left = 5.0
+content_margin_right = 5.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color( 0.094, 0.096, 0.1, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.047, 0.048, 0.05, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=2114]
+
+[node name="MainUI" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 14 )
-script = ExtResource( 10 )
+custom_constants/margin_right = 4
+custom_constants/margin_top = 4
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
-file_dialog = NodePath("FileDialog")
 
-[node name="FileDialog" type="FileDialog" parent="."]
-margin_left = 7.0
-margin_top = 90.0
-margin_right = 273.0
-margin_bottom = 230.0
+[node name="MainControls" type="VBoxContainer" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 396.0
+margin_bottom = 596.0
+
+[node name="TabContainer" type="TabContainer" parent="MainControls"]
+margin_right = 392.0
+margin_bottom = 512.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-popup_exclusive = true
-window_title = "Select Images to Convert to SVG"
-resizable = true
-mode_overrides_title = false
-mode = 1
-access = 2
-filters = PoolStringArray( "*.png ; PNG Images", "*.jpg ; JPG Images", "*.bmp ; BMP Image", "*.dds ; DDS Image", "*.exr ; OpenEXR Image", "*.hdr ; Radiance HDR Image", "*.tga ; Targa Image", "*.webp ; WebP Image" )
-current_dir = "/Projects/Godot/Utilities/PIXELVEC/Project"
-current_path = "/Projects/Godot/Utilities/PIXELVEC/Project/"
-script = ExtResource( 15 )
-node_to_hide_when_open = NodePath("../AllControls")
 
-[node name="AllControls" type="VBoxContainer" parent="."]
-margin_left = 12.0
-margin_top = 11.0
-margin_right = 268.0
-margin_bottom = 309.0
-custom_constants/separation = 10
+[node name="SOURCE IMAGES" parent="MainControls/TabContainer" instance=ExtResource( 2 )]
 
-[node name="WindowControls" type="HBoxContainer" parent="AllControls"]
-margin_right = 256.0
-margin_bottom = 32.0
-alignment = 2
+[node name="OUTPUT" parent="MainControls/TabContainer" instance=ExtResource( 4 )]
+visible = false
 
-[node name="Close" type="TextureButton" parent="AllControls/WindowControls"]
-margin_left = 224.0
-margin_right = 256.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 32, 32 )
-hint_tooltip = "Close"
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 9 )
-texture_hover = ExtResource( 6 )
-expand = true
-script = ExtResource( 11 )
+[node name="PanelContainer2" type="PanelContainer" parent="MainControls"]
+margin_top = 516.0
+margin_right = 392.0
+margin_bottom = 551.0
+custom_styles/panel = SubResource( 2113 )
 
-[node name="Convert" type="TextureButton" parent="AllControls"]
-margin_top = 42.0
-margin_right = 256.0
-margin_bottom = 298.0
-hint_tooltip = "Convert images to SVG"
+[node name="CheckButton" type="CheckBox" parent="MainControls/PanelContainer2"]
+margin_left = 29.0
+margin_top = 5.0
+margin_right = 362.0
+margin_bottom = 30.0
 size_flags_horizontal = 4
-size_flags_vertical = 4
-keep_pressed_outside = true
-texture_normal = ExtResource( 4 )
-texture_pressed = ExtResource( 3 )
-texture_hover = ExtResource( 2 )
-texture_click_mask = ExtResource( 13 )
-stretch_mode = 3
-script = ExtResource( 16 )
-[connection signal="pressed" from="AllControls/Convert" to="." method="_on_Convert_pressed"]
+custom_styles/focus = SubResource( 2114 )
+text = "PLACE OUTPUT FILES IN SAME DIRECTORY AS SOURCE FILES?"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainControls"]
+margin_top = 555.0
+margin_right = 392.0
+margin_bottom = 592.0
+
+[node name="FinalizeOutput" type="HBoxContainer" parent="MainControls/VBoxContainer"]
+margin_right = 392.0
+margin_bottom = 37.0
+
+[node name="LineEdit" type="LineEdit" parent="MainControls/VBoxContainer/FinalizeOutput"]
+margin_right = 306.0
+margin_bottom = 37.0
+size_flags_horizontal = 3
+editable = false
+virtual_keyboard_enabled = false
+placeholder_text = "CHOOSE AN OUTPUT DIRECTORY"
+placeholder_alpha = 0.8
+
+[node name="Browse" type="Button" parent="MainControls/VBoxContainer/FinalizeOutput"]
+margin_left = 310.0
+margin_right = 360.0
+margin_bottom = 37.0
+hint_tooltip = "Select an output directory for converted files."
+text = "BROWSE"
+
+[node name="Convert" type="Button" parent="MainControls/VBoxContainer/FinalizeOutput"]
+margin_left = 364.0
+margin_right = 392.0
+margin_bottom = 37.0
+hint_tooltip = "Convert files.
+"
+custom_fonts/font = ExtResource( 1 )
+icon = ExtResource( 3 )

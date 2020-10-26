@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://edg8.theme" type="Theme" id=1]
+[ext_resource path="res://ui_helpers/full_window_file_dialog.gd" type="Script" id=2]
+
+[node name="OUTPUT" type="Tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OutputDirDialog" type="FileDialog" parent="."]
+visible = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+window_title = "CHOOSE AN OUTPUT DIRECTORY"
+mode_overrides_title = false
+mode = 2
+access = 2
+current_dir = "/Projects/Godot/Utilities/PIXELVEC/Project"
+current_path = "/Projects/Godot/Utilities/PIXELVEC/Project/"
+script = ExtResource( 2 )
+
+[node name="Output" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RegexControls" type="HBoxContainer" parent="Output"]
+margin_right = 390.0
+margin_bottom = 25.0
+
+[node name="LineEdit" type="LineEdit" parent="Output/RegexControls"]
+margin_right = 390.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+placeholder_text = "$filename.svg"
+placeholder_alpha = 0.8
+
+[node name="ItemList" type="ItemList" parent="Output"]
+margin_top = 29.0
+margin_right = 390.0
+margin_bottom = 563.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}

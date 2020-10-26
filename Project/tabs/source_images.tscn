@@ -1,0 +1,106 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://fonts/labels.tres" type="DynamicFont" id=1]
+[ext_resource path="res://edg8.theme" type="Theme" id=2]
+[ext_resource path="res://tabs/source_images.gd" type="Script" id=3]
+[ext_resource path="res://ui_helpers/full_window_file_dialog.gd" type="Script" id=4]
+
+[node name="SOURCE IMAGES" type="Tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+theme = ExtResource( 2 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+choose_files_dialog = NodePath("ChooseFilesDialog")
+item_list = NodePath("SourceImages/ItemList")
+remove_file_btn = NodePath("SourceImages/ListControls/RemoveFile")
+
+[node name="ChooseFilesDialog" type="FileDialog" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+window_title = "Select File(s) to Convert"
+mode_overrides_title = false
+mode = 1
+access = 2
+filters = PoolStringArray( "*.png ; PNG Image", "*.jpg ; JPG Image", "*.bmp ; BMP Image", "*.dds ; DDS Image", "*.exr ; OpenEXR Image", "*.hdr ; Radiance HDR Image", "*.tga ; Targa Image", "*.webp ; WebP Image" )
+current_dir = "/Projects/Godot/Utilities/PIXELVEC/Project"
+current_path = "/Projects/Godot/Utilities/PIXELVEC/Project/"
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OutputDirDialog" type="FileDialog" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+window_title = "CHOOSE AN OUTPUT DIRECTORY"
+mode_overrides_title = false
+mode = 2
+access = 2
+current_dir = "/Projects/Godot/Utilities/PIXELVEC/Project"
+current_path = "/Projects/Godot/Utilities/PIXELVEC/Project/"
+script = ExtResource( 4 )
+
+[node name="SourceImages" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ListControls" type="HBoxContainer" parent="SourceImages"]
+margin_right = 390.0
+margin_bottom = 37.0
+alignment = 2
+
+[node name="Label" type="Label" parent="SourceImages/ListControls"]
+margin_left = 242.0
+margin_right = 322.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.827451, 0.152941, 0.203922, 1 )
+text = "Images"
+align = 1
+uppercase = true
+
+[node name="AddFiles" type="Button" parent="SourceImages/ListControls"]
+margin_left = 326.0
+margin_right = 356.0
+margin_bottom = 37.0
+hint_tooltip = "Add more images to convert."
+text = "ADD"
+
+[node name="RemoveFile" type="Button" parent="SourceImages/ListControls"]
+margin_left = 360.0
+margin_right = 390.0
+margin_bottom = 37.0
+hint_tooltip = "Remove the selected image from the conversion list."
+disabled = true
+text = "DEL"
+
+[node name="ItemList" type="ItemList" parent="SourceImages"]
+margin_top = 41.0
+margin_right = 390.0
+margin_bottom = 563.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+select_mode = 1
+allow_reselect = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="file_selected" from="ChooseFilesDialog" to="." method="_on_ChooseFilesDialog_file_selected"]
+[connection signal="files_selected" from="ChooseFilesDialog" to="." method="_on_ChooseFilesDialog_files_selected"]
+[connection signal="pressed" from="SourceImages/ListControls/AddFiles" to="." method="_on_AddFiles_pressed"]
+[connection signal="pressed" from="SourceImages/ListControls/RemoveFile" to="." method="_on_RemoveFile_pressed"]
+[connection signal="item_selected" from="SourceImages/ItemList" to="." method="_on_ItemList_item_selected"]
+[connection signal="multi_selected" from="SourceImages/ItemList" to="." method="_on_ItemList_multi_selected"]
+[connection signal="nothing_selected" from="SourceImages/ItemList" to="." method="_on_ItemList_nothing_selected"]
