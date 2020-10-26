@@ -1,4 +1,4 @@
-extends Tabs
+extends Control
 
 
 export(NodePath) var choose_files_dialog: NodePath

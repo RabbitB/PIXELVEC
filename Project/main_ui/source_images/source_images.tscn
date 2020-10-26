@@ -1,18 +1,18 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://fonts/labels.tres" type="DynamicFont" id=1]
-[ext_resource path="res://edg8.theme" type="Theme" id=2]
-[ext_resource path="res://tabs/source_images.gd" type="Script" id=3]
-[ext_resource path="res://ui_helpers/full_window_file_dialog.gd" type="Script" id=4]
+[ext_resource path="res://theme/generic_panel.tres" type="StyleBox" id=1]
+[ext_resource path="res://ui_helpers/full_window_file_dialog.gd" type="Script" id=2]
+[ext_resource path="res://main_ui/source_images/source_images.gd" type="Script" id=3]
+[ext_resource path="res://fonts/labels.tres" type="DynamicFont" id=4]
+[ext_resource path="res://theme/edg8.theme" type="Theme" id=5]
 
-[node name="SOURCE IMAGES" type="Tabs"]
+[node name="SourceImages" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
-theme = ExtResource( 2 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 5 )
+custom_styles/panel = ExtResource( 1 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -31,7 +31,7 @@ access = 2
 filters = PoolStringArray( "*.png ; PNG Image", "*.jpg ; JPG Image", "*.bmp ; BMP Image", "*.dds ; DDS Image", "*.exr ; OpenEXR Image", "*.hdr ; Radiance HDR Image", "*.tga ; Targa Image", "*.webp ; WebP Image" )
 current_dir = "/Projects/Godot/Utilities/PIXELVEC/Project"
 current_path = "/Projects/Godot/Utilities/PIXELVEC/Project/"
-script = ExtResource( 4 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -45,11 +45,13 @@ mode = 2
 access = 2
 current_dir = "/Projects/Godot/Utilities/PIXELVEC/Project"
 current_path = "/Projects/Godot/Utilities/PIXELVEC/Project/"
-script = ExtResource( 4 )
+script = ExtResource( 2 )
 
 [node name="SourceImages" type="VBoxContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 395.0
+margin_bottom = 595.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -65,7 +67,7 @@ alignment = 2
 margin_left = 242.0
 margin_right = 322.0
 margin_bottom = 37.0
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.827451, 0.152941, 0.203922, 1 )
 text = "Images"
 align = 1
@@ -89,7 +91,7 @@ text = "DEL"
 [node name="ItemList" type="ItemList" parent="SourceImages"]
 margin_top = 41.0
 margin_right = 390.0
-margin_bottom = 563.0
+margin_bottom = 590.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 select_mode = 1

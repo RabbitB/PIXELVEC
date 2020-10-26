@@ -37,7 +37,7 @@ window/size/width=400
 
 [gui]
 
-theme/custom="res://edg8.theme"
+theme/custom="res://theme/edg8.theme"
 
 [input]
 
