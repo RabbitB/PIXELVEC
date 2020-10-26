@@ -18,16 +18,17 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-output_dir_check_btn = NodePath("PanelContainer/OutputDirCheckButton")
+output_dir_check_box = NodePath("PanelContainer/OutputDirCheckBox")
 output_dir_line_edit = NodePath("VBoxContainer/HBoxContainer/LineEdit")
 browse_output_dir_btn = NodePath("VBoxContainer/HBoxContainer/BrowseButton")
+convert_btn = NodePath("VBoxContainer/HBoxContainer/ConvertButton")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 margin_right = 400.0
 margin_bottom = 35.0
 custom_styles/panel = ExtResource( 1 )
 
-[node name="OutputDirCheckButton" type="CheckBox" parent="PanelContainer"]
+[node name="OutputDirCheckBox" type="CheckBox" parent="PanelContainer"]
 margin_left = 33.0
 margin_top = 5.0
 margin_right = 366.0
@@ -68,8 +69,7 @@ text = "BROWSE"
 margin_left = 372.0
 margin_right = 400.0
 margin_bottom = 37.0
-hint_tooltip = "Convert files.
-"
+hint_tooltip = "Convert files into SVG."
 custom_fonts/font = ExtResource( 2 )
 icon = ExtResource( 3 )
-[connection signal="toggled" from="PanelContainer/OutputDirCheckButton" to="." method="_on_OutputDirCheckButton_toggled"]
+[connection signal="toggled" from="PanelContainer/OutputDirCheckBox" to="." method="_on_OutputDirCheckButton_toggled"]
