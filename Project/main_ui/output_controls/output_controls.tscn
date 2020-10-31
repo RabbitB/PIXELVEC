@@ -92,3 +92,4 @@ icon = ExtResource( 3 )
 [connection signal="dir_selected" from="OutputDirDialog" to="." method="_on_OutputDirDialog_dir_selected"]
 [connection signal="pressed" from="ChooseOutputLoc/BrowseButton" to="." method="_on_BrowseButton_pressed"]
 [connection signal="toggled" from="Convert/PanelContainer/OutputDirCheckBox" to="." method="_on_OutputDirCheckButton_toggled"]
+[connection signal="pressed" from="Convert/ConvertButton" to="." method="_on_ConvertButton_pressed"]
