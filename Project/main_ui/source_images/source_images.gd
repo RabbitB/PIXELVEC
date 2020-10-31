@@ -12,13 +12,21 @@ onready var _remove_file_btn: Button = get_node(remove_file_btn) as Button
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("select_all"):
+		get_tree().set_input_as_handled()
+
 		for i in _item_list.get_item_count():
 			_item_list.select(i, false)
 			_item_list_selection_changed()
 
 	elif event.is_action_pressed("deselect_all"):
+		get_tree().set_input_as_handled()
+
 		_item_list.unselect_all()
 		_item_list_selection_changed()
+
+	elif event.is_action_pressed("delete_selected"):
+		get_tree().set_input_as_handled()
+		_on_RemoveFile_pressed()
 
 
 func is_in_list(path: String) -> bool:
@@ -58,11 +66,11 @@ func _on_ChooseFilesDialog_files_selected(paths: PoolStringArray) -> void:
 			_item_list.add_item(path)
 
 
-func _on_ItemList_item_selected(index: int) -> void:
+func _on_ItemList_item_selected(_index: int) -> void:
 	_item_list_selection_changed()
 
 
-func _on_ItemList_multi_selected(index: int, selected: bool) -> void:
+func _on_ItemList_multi_selected(_index: int, _selected: bool) -> void:
 	_item_list_selection_changed()
 
 

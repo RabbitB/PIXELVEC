@@ -36,17 +36,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OutputDirDialog" type="FileDialog" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-window_title = "CHOOSE AN OUTPUT DIRECTORY"
-mode_overrides_title = false
-mode = 2
-access = 2
-current_dir = "/Projects/Godot/Utilities/PIXELVEC/Project"
-current_path = "/Projects/Godot/Utilities/PIXELVEC/Project/"
-script = ExtResource( 2 )
-
 [node name="SourceImages" type="VBoxContainer" parent="."]
 margin_left = 5.0
 margin_top = 5.0
@@ -84,7 +73,7 @@ text = "ADD"
 margin_left = 360.0
 margin_right = 390.0
 margin_bottom = 37.0
-hint_tooltip = "Remove the selected image from the conversion list."
+hint_tooltip = "Remove the selected image(s) from the conversion list."
 disabled = true
 text = "DEL"
 
