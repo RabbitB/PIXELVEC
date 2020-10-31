@@ -27,7 +27,8 @@ func get_output_path(for_file: String) -> String:
 	if !_use_custom_output_dir || _custom_output_dir.empty():
 		return "%s.svg" % [for_file.get_basename()]
 
-	return "%s.svg" % [_custom_output_dir.plus_file(for_file.get_file())]
+	var base_file_name: String = for_file.get_file().rstrip(".%s" % for_file.get_extension())
+	return "%s.svg" % [_custom_output_dir.plus_file(base_file_name)]
 
 
 func _sync_with_ui() -> void:
