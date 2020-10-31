@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://main_ui/output_controls/output_controls.tscn" type="PackedScene" id=1]
 [ext_resource path="res://main_ui/source_images/source_images.tscn" type="PackedScene" id=2]
+[ext_resource path="res://main_ui/main_ui.gd" type="Script" id=3]
 [ext_resource path="res://theme/edg8.theme" type="Theme" id=14]
 
 [node name="MainUI" type="MarginContainer"]
@@ -12,9 +13,12 @@ custom_constants/margin_right = 4
 custom_constants/margin_top = 4
 custom_constants/margin_left = 4
 custom_constants/margin_bottom = 4
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+source_images_ui = NodePath("Sections/SourceImages")
+output_ui = NodePath("Sections/OutputControls")
 
 [node name="Sections" type="VBoxContainer" parent="."]
 margin_left = 4.0
@@ -26,7 +30,7 @@ margin_bottom = 596.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 392.0
-margin_bottom = 512.0
+margin_bottom = 510.0
 choose_files_dialog = NodePath("../SourceImages/ChooseFilesDialog")
 item_list = NodePath("../SourceImages/SourceImages/ItemList")
 remove_file_btn = NodePath("../SourceImages/SourceImages/ListControls/RemoveFile")
@@ -34,6 +38,7 @@ remove_file_btn = NodePath("../SourceImages/SourceImages/ListControls/RemoveFile
 [node name="OutputControls" parent="Sections" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 516.0
+margin_top = 514.0
 margin_right = 392.0
 margin_bottom = 592.0
+[connection signal="convert_files" from="Sections/OutputControls" to="." method="_on_OutputControls_convert_files"]
