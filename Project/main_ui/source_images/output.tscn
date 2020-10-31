@@ -3,7 +3,6 @@
 [ext_resource path="res://theme/edg8.theme" type="Theme" id=1]
 [ext_resource path="res://ui_helpers/full_window_file_dialog.gd" type="Script" id=2]
 
-
 [node name="OUTPUT" type="Tabs"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -27,6 +26,9 @@ access = 2
 current_dir = "/Projects/Godot/Utilities/PIXELVEC/Project"
 current_path = "/Projects/Godot/Utilities/PIXELVEC/Project/"
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Output" type="VBoxContainer" parent="."]
 anchor_right = 1.0
