@@ -29,6 +29,14 @@ func _input(event: InputEvent) -> void:
 		_on_RemoveFile_pressed()
 
 
+func get_files() -> Array:
+	var file_list: Array = []
+	for i in _item_list.get_item_count():
+		file_list.append(_item_list.get_item_text(i))
+
+	return file_list
+
+
 func is_in_list(path: String) -> bool:
 	for i in _item_list.get_item_count():
 		if _item_list.get_item_text(i) == path:
