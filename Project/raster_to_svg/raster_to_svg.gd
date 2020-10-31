@@ -76,4 +76,5 @@ func add_rect2(rect: Rect2, color: Color) -> void:
 	_xml_writer.set_attribute("width", "1", svg_rect)
 	_xml_writer.set_attribute("height", "1", svg_rect)
 	_xml_writer.set_attribute("fill", "#%s" % color.to_html(false), svg_rect)
+	_xml_writer.set_attribute("fill-opacity", str(color.a), svg_rect)
 
