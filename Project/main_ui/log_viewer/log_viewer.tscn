@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://theme/edg8.theme" type="Theme" id=1]
+[ext_resource path="res://theme/generic_panel.tres" type="StyleBox" id=2]
+[ext_resource path="res://fonts/labels.tres" type="DynamicFont" id=3]
+[ext_resource path="res://main_ui/log_viewer/log_viewer.gd" type="Script" id=4]
+
+[node name="Log" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+custom_styles/panel = ExtResource( 2 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+log_list = NodePath("HBoxContainer/ItemList")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 395.0
+margin_bottom = 595.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ListControls" type="HBoxContainer" parent="HBoxContainer"]
+margin_right = 390.0
+margin_bottom = 37.0
+alignment = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ListControls"]
+margin_left = 172.0
+margin_right = 298.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.827451, 0.152941, 0.203922, 1 )
+text = "OUTPUT LOG"
+align = 1
+uppercase = true
+
+[node name="Clear" type="Button" parent="HBoxContainer/ListControls"]
+margin_left = 302.0
+margin_right = 344.0
+margin_bottom = 37.0
+hint_tooltip = "Clear the output log."
+text = "CLEAR"
+
+[node name="Close" type="Button" parent="HBoxContainer/ListControls"]
+margin_left = 348.0
+margin_right = 390.0
+margin_bottom = 37.0
+hint_tooltip = "Close the output log."
+text = "CLOSE"
+
+[node name="ItemList" type="ItemList" parent="HBoxContainer"]
+margin_top = 41.0
+margin_right = 390.0
+margin_bottom = 590.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+select_mode = 1
+allow_reselect = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="HBoxContainer/ListControls/Clear" to="." method="_on_Clear_pressed"]
+[connection signal="pressed" from="HBoxContainer/ListControls/Close" to="." method="_on_Close_pressed"]
