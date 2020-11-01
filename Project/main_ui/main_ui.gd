@@ -4,12 +4,24 @@ extends MarginContainer
 const RasterToSVG: Script = preload("res://raster_to_svg/raster_to_svg.gd")
 const SourceImages: Script = preload("res://main_ui/source_images/source_images.gd")
 const OutputControls: Script = preload("res://main_ui/output_controls/output_controls.gd")
+const LogViewer: Script = preload("res://main_ui/log_viewer/log_viewer.gd")
 
 export(NodePath) var source_images_ui: NodePath
 export(NodePath) var output_ui: NodePath
+export(NodePath) var log_viewer: NodePath
 
 onready var _source_images_ui: SourceImages = get_node(source_images_ui) as SourceImages
 onready var _output_ui: OutputControls = get_node(output_ui) as OutputControls
+onready var _log_viewer: LogViewer = get_node(log_viewer) as LogViewer
+
+
+func view_log(show: bool) -> void:
+	if show:
+		_log_viewer.show_log()
+		_source_images_ui.visible = false
+	else:
+		_log_viewer.close_log()
+		_source_images_ui.visible = true
 
 
 func _on_OutputControls_convert_files() -> void:
@@ -20,7 +32,6 @@ func _on_OutputControls_convert_files() -> void:
 		var source_image: Image = Image.new()
 
 		var err: int = source_image.load(file)
-
 		if err:
 			print(err)
 
@@ -31,4 +42,14 @@ func _on_OutputControls_convert_files() -> void:
 		output_file.open(output_path, File.WRITE)
 		output_file.store_string(svg_output)
 		output_file.close()
+		
+		view_log(true)
+
+
+func _on_OutputControls_view_log() -> void:
+	view_log(true)
+
+
+func _on_Log_log_will_close() -> void:
+	view_log(false)
 

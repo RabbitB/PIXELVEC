@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "Log",
+"language": "GDScript",
+"path": "res://addons/chino/global/log.gd"
+}, {
 "base": "Resource",
 "class": "XMLWriter",
 "language": "GDScript",
 "path": "res://format_writers/xml_writer.gd"
 } ]
 _global_script_class_icons={
+"Log": "",
 "XMLWriter": ""
 }
 

@@ -2,6 +2,7 @@ extends Control
 
 
 signal convert_files()
+signal view_log()
 
 export(NodePath) var output_dir_dialog: NodePath
 export(NodePath) var output_dir_check_box: NodePath
@@ -62,4 +63,8 @@ func _on_OutputDirDialog_dir_selected(dir: String) -> void:
 
 func _on_ConvertButton_pressed() -> void:
 	emit_signal("convert_files")
+
+
+func _on_ViewLog_pressed() -> void:
+	emit_signal("view_log")
 
