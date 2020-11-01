@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://theme/generic_panel.tres" type="StyleBox" id=1]
 [ext_resource path="res://fonts/labels.tres" type="DynamicFont" id=2]
@@ -8,6 +8,12 @@
 [ext_resource path="res://ui_helpers/full_window_file_dialog.gd" type="Script" id=6]
 
 [sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="InputEventAction" id=2]
+action = "ui_accept"
+
+[sub_resource type="ShortCut" id=3]
+shortcut = SubResource( 2 )
 
 [node name="OutputControls" type="VBoxContainer"]
 anchor_right = 1.0
@@ -95,6 +101,8 @@ margin_right = 400.0
 margin_bottom = 37.0
 hint_tooltip = "Convert files into SVG."
 custom_fonts/font = ExtResource( 2 )
+shortcut_in_tooltip = false
+shortcut = SubResource( 3 )
 icon = ExtResource( 3 )
 [connection signal="dir_selected" from="OutputDirDialog" to="." method="_on_OutputDirDialog_dir_selected"]
 [connection signal="pressed" from="ChooseOutputLoc/BrowseButton" to="." method="_on_BrowseButton_pressed"]

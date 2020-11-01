@@ -10,6 +10,9 @@ export(NodePath) var source_images_ui: NodePath
 export(NodePath) var output_ui: NodePath
 export(NodePath) var log_viewer: NodePath
 
+var _conversion_thread: Thread = Thread.new()
+var _conversion_done: bool = false
+
 onready var _source_images_ui: SourceImages = get_node(source_images_ui) as SourceImages
 onready var _output_ui: OutputControls = get_node(output_ui) as OutputControls
 onready var _log_viewer: LogViewer = get_node(log_viewer) as LogViewer
@@ -24,8 +27,17 @@ func view_log(show: bool) -> void:
 		_source_images_ui.visible = true
 
 
+func _thread_finished():
+	_conversion_done = true
+
+
 func _on_OutputControls_convert_files() -> void:
+	if _conversion_thread.is_active():
+		return
+
 	var files_to_convert: Array = _source_images_ui.get_files()
+
+	_source_images_ui.busy(true)
 
 	for file in files_to_convert:
 		var output_path: String = _output_ui.get_output_path(file)
@@ -34,26 +46,35 @@ func _on_OutputControls_convert_files() -> void:
 		var err: int = source_image.load(file)
 		if err:
 			_log_viewer.log_error("%s: Could not load %s" % [Log.get_error_description(err), file])
-			view_log(true)
 
+			view_log(true)
 			continue
 
 		var raster_to_svg: RasterToSVG = RasterToSVG.new()
-		var svg_output: String = raster_to_svg.convert_image(source_image, raster_to_svg.ScanMode.NAIVE)
+		var args: Array = [source_image, raster_to_svg.ScanMode.NAIVE, self, "_thread_finished"]
+		_conversion_thread.start(raster_to_svg, "convert_image_threaded", args)
+
+		while !_conversion_done:
+			yield(get_tree(), "idle_frame")
+
+		var svg_output: String = _conversion_thread.wait_to_finish()
+		_conversion_done = false
 
 		var output_file: File = File.new()
 		err = output_file.open(output_path, File.WRITE)
 		if err:
 			_log_viewer.log_error("%s: Could not create %s" % [Log.get_error_description(err), output_path])
-			view_log(true)
 
+			view_log(true)
 			continue
 
 		output_file.store_string(svg_output)
 		output_file.close()
 
 		_log_viewer.log_msg("Successfully converted: %s" % file)
-		view_log(true)
+
+	_source_images_ui.busy(false)
+	view_log(true)
 
 
 func _on_OutputControls_view_log() -> void:

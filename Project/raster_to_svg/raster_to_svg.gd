@@ -31,7 +31,7 @@ func _init() -> void:
 func convert_image(raster_image: Image, scan_mode: int) -> String:
 	_xml_writer.set_attribute("width", str(raster_image.get_width()), _svg)
 	_xml_writer.set_attribute("height", str(raster_image.get_height()), _svg)
-	
+
 	var palette: Dictionary = palettize(raster_image)
 
 	match scan_mode:
@@ -46,6 +46,15 @@ func convert_image(raster_image: Image, scan_mode: int) -> String:
 			pass
 
 	return _xml_writer.output_xml()
+
+
+func convert_image_threaded(args: Array) -> String:
+	assert(args.size() == 4)
+
+	var output: String = convert_image(args[0], args[1])
+	args[2].call_deferred(args[3])
+
+	return output
 
 
 func palettize(raster_image: Image) -> Dictionary:

@@ -1,10 +1,60 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://theme/generic_panel.tres" type="StyleBox" id=1]
 [ext_resource path="res://ui_helpers/full_window_file_dialog.gd" type="Script" id=2]
 [ext_resource path="res://main_ui/source_images/source_images.gd" type="Script" id=3]
 [ext_resource path="res://fonts/labels.tres" type="DynamicFont" id=4]
 [ext_resource path="res://theme/edg8.theme" type="Theme" id=5]
+[ext_resource path="res://main_ui/busy_indicator.png" type="Texture" id=6]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 6 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 6 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 6 )
+region = Rect2( 48, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 6 )
+region = Rect2( 64, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 6 )
+region = Rect2( 80, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 6 )
+region = Rect2( 96, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 6 )
+region = Rect2( 112, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 6 )
+region = Rect2( 128, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=10]
+animations = [ {
+"frames": [ SubResource( 1 ) ],
+"loop": false,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
+"loop": true,
+"name": "spinning",
+"speed": 12.0
+} ]
 
 [node name="SourceImages" type="PanelContainer"]
 anchor_right = 1.0
@@ -20,6 +70,7 @@ __meta__ = {
 choose_files_dialog = NodePath("ChooseFilesDialog")
 item_list = NodePath("SourceImages/ItemList")
 remove_file_btn = NodePath("SourceImages/ListControls/RemoveFile")
+busy_indicator = NodePath("SourceImages/BusyIndicator")
 
 [node name="ChooseFilesDialog" type="FileDialog" parent="."]
 anchor_right = 1.0
@@ -46,6 +97,11 @@ size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="BusyIndicator" type="AnimatedSprite" parent="SourceImages"]
+position = Vector2( 15, 18 )
+frames = SubResource( 10 )
+animation = "idle"
 
 [node name="ListControls" type="HBoxContainer" parent="SourceImages"]
 margin_right = 390.0

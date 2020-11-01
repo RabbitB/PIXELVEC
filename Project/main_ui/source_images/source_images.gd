@@ -4,10 +4,12 @@ extends Control
 export(NodePath) var choose_files_dialog: NodePath
 export(NodePath) var item_list: NodePath
 export(NodePath) var remove_file_btn: NodePath
+export(NodePath) var busy_indicator: NodePath
 
 onready var _choose_files_dialog: FileDialog = get_node(choose_files_dialog) as FileDialog
 onready var _item_list: ItemList = get_node(item_list) as ItemList
 onready var _remove_file_btn: Button = get_node(remove_file_btn) as Button
+onready var _busy_indicator: AnimatedSprite = get_node(busy_indicator) as AnimatedSprite
 
 
 func _input(event: InputEvent) -> void:
@@ -43,6 +45,13 @@ func is_in_list(path: String) -> bool:
 			return true
 
 	return false
+
+
+func busy(is_busy: bool) -> void:
+	if is_busy:
+		_busy_indicator.play("spinning")
+	else:
+		_busy_indicator.play("idle")
 
 
 func _item_list_selection_changed() -> void:
