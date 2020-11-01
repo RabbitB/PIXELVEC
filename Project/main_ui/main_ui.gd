@@ -33,16 +33,26 @@ func _on_OutputControls_convert_files() -> void:
 
 		var err: int = source_image.load(file)
 		if err:
-			print(err)
+			_log_viewer.log_error("%s: Could not load %s" % [Log.get_error_description(err), file])
+			view_log(true)
+
+			continue
 
 		var raster_to_svg: RasterToSVG = RasterToSVG.new()
 		var svg_output: String = raster_to_svg.convert_image(source_image, raster_to_svg.ScanMode.NAIVE)
 
 		var output_file: File = File.new()
-		output_file.open(output_path, File.WRITE)
+		err = output_file.open(output_path, File.WRITE)
+		if err:
+			_log_viewer.log_error("%s: Could not create %s" % [Log.get_error_description(err), output_path])
+			view_log(true)
+
+			continue
+
 		output_file.store_string(svg_output)
 		output_file.close()
-		
+
+		_log_viewer.log_msg("Successfully converted: %s" % file)
 		view_log(true)
 
 

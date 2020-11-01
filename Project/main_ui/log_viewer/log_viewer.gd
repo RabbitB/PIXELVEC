@@ -37,8 +37,9 @@ func show_log() -> void:
 
 
 func close_log() -> void:
-	visible = false
-	emit_signal("log_will_close")
+	if visible:
+		visible = false
+		emit_signal("log_will_close")
 
 
 func _on_Clear_pressed() -> void:
