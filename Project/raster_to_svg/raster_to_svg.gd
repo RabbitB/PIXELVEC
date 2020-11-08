@@ -10,6 +10,7 @@ enum ScanMode {
 }
 
 const NaiveScanner: Script = preload("res://raster_to_svg/scanners/naive.gd")
+const HorizontalScanner: Script = preload("res://raster_to_svg/scanners/horizontal.gd")
 
 var _xml_writer: XMLWriter
 var _svg: Dictionary
@@ -42,6 +43,14 @@ func convert_image(raster_image: Image, scan_mode: int) -> String:
 				var rects: Array = naive_scanner.get_vector_shapes(palette[pixel_color])
 				for rect in rects:
 					add_rect2(rect, pixel_color)
+
+		ScanMode.HORIZONTAL:
+			var horizontal_scanner: HorizontalScanner = HorizontalScanner.new()
+
+			for pixel_color in palette:
+				var rects: Array = horizontal_scanner.get_vector_shapes(palette[pixel_color])
+				for rect in rects:
+					add_rect2(rect, pixel_color)
 		_:
 			pass
 
@@ -63,8 +72,8 @@ func palettize(raster_image: Image) -> Dictionary:
 
 	raster_image.lock()
 
-	for x in image_size.x:
-		for y in image_size.y:
+	for y in image_size.y:
+		for x in image_size.x:
 			var pixel_color: Color = raster_image.get_pixel(x, y)
 			if pixel_color.a == 0:
 				continue
