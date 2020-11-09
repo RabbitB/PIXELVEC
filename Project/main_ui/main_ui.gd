@@ -1,6 +1,7 @@
 extends MarginContainer
 
 
+const CONFIG_PATH: String = "user://config.cfg"
 const RasterToSVG: Script = preload("res://raster_to_svg/raster_to_svg.gd")
 const SourceImages: Script = preload("res://main_ui/source_images/source_images.gd")
 const SaveControls: Script = preload("res://main_ui/save_controls/save_controls.gd")
@@ -12,6 +13,7 @@ export(NodePath) var log_viewer: NodePath
 
 var _conversion_thread: Thread = Thread.new()
 var _conversion_done: bool = false
+var _config_file: ConfigFile = ConfigFile.new()
 
 onready var _source_images_ui: SourceImages = get_node(source_images_ui) as SourceImages
 onready var _save_ui: SaveControls = get_node(save_ui) as SaveControls
@@ -21,8 +23,24 @@ onready var _log_viewer: LogViewer = get_node(log_viewer) as LogViewer
 func _ready() -> void:
 	var min_width: int = ProjectSettings.get_setting("display/window/size/min_width")
 	var min_height: int = ProjectSettings.get_setting("display/window/size/min_height")
+	var default_width: int = ProjectSettings.get_setting("display/window/size/width")
+	var default_height: int = ProjectSettings.get_setting("display/window/size/height")
 
 	OS.min_window_size = Vector2(min_width, min_height)
+
+	var err: int = _config_file.load(CONFIG_PATH)
+	if err:
+		Log.error("Could not load the config file; encountered error: %s" % Log.get_error_description(err))
+
+	OS.window_position = _config_file.get_value("window", "position", OS.window_position)
+	OS.window_size = _config_file.get_value("window", "size", Vector2(default_width, default_height))
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_QUIT_REQUEST:
+		_config_file.set_value("window", "position", OS.window_position)
+		_config_file.set_value("window", "size", OS.window_size)
+		_save_config_file()
 
 
 func view_log(show: bool) -> void:
@@ -34,8 +52,15 @@ func view_log(show: bool) -> void:
 		_source_images_ui.visible = true
 
 
-func _thread_finished():
+func _thread_finished() -> void:
 	_conversion_done = true
+
+
+func _save_config_file() -> void:
+	var err: int = _config_file.save(CONFIG_PATH)
+	if err:
+		Log.error("Could not save the config file to '%s'; encountered error: %s" \
+				% [CONFIG_PATH, Log.get_error_description(err)])
 
 
 func _on_SaveControls_convert_files() -> void:
