@@ -15,7 +15,9 @@ enum Unit {
 	PC,
 	MM,
 	CM,
-	IN
+	IN, 
+	EM, 
+	EX
 }
 
 
@@ -128,6 +130,10 @@ func unit_to_str(unit: int) -> String:
 			return "cm"
 		Unit.IN:
 			return "in"
+		Unit.EM:
+			return "em"
+		Unit.EX:
+			return "ex"
 		_:
 			return ""
 

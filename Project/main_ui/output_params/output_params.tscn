@@ -52,7 +52,7 @@ margin_bottom = 25.0
 hint_tooltip = "UNIT TO CONVERT EACH PIXEL INTO"
 text = "px"
 align = 1
-items = [ "px", null, false, 0, null, "pt", null, false, 1, null, "pc", null, false, 2, null, "mm", null, false, 3, null, "cm", null, false, 4, null, "in", null, false, 5, null ]
+items = [ "px", null, false, 0, null, "pt", null, false, 1, null, "pc", null, false, 2, null, "mm", null, false, 3, null, "cm", null, false, 4, null, "in", null, false, 5, null, "em", null, false, 6, null, "ex", null, false, 7, null ]
 selected = 0
 
 [node name="Scale" type="HBoxContainer" parent="ActualControls"]
