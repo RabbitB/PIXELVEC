@@ -22,6 +22,7 @@ enum Unit {
 
 const NaiveScanner: Script = preload("res://raster_to_svg/scanners/naive.gd")
 const HorizontalScanner: Script = preload("res://raster_to_svg/scanners/horizontal.gd")
+const VerticalScanner: Script = preload("res://raster_to_svg/scanners/vertical.gd")
 
 var _xml_writer: XMLWriter
 var _svg: Dictionary
@@ -62,6 +63,14 @@ func convert_image(raster_image: Image, scan_mode: int, unit: int, scale: float,
 
 			for pixel_color in palette:
 				var rects: Array = horizontal_scanner.get_vector_shapes(palette[pixel_color])
+				for rect in rects:
+					add_rect2(rect, pixel_color, unit_str, scale, overdraw)
+
+		ScanMode.VERTICAL:
+			var vertical_scanner: VerticalScanner = VerticalScanner.new()
+
+			for pixel_color in palette:
+				var rects: Array = vertical_scanner.get_vector_shapes(palette[pixel_color])
 				for rect in rects:
 					add_rect2(rect, pixel_color, unit_str, scale, overdraw)
 		_:
