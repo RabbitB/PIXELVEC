@@ -2,12 +2,23 @@ extends Resource
 
 
 enum ScanMode {
+	NONE,
 	NAIVE,
 	HORIZONTAL,
 	VERTICAL,
 	HORIZONTAL_WAVEFORM,
 	VERTICAL_WAVEFORM
 }
+
+enum Unit {
+	PX,
+	PT,
+	PC,
+	MM,
+	CM,
+	IN
+}
+
 
 const NaiveScanner: Script = preload("res://raster_to_svg/scanners/naive.gd")
 const HorizontalScanner: Script = preload("res://raster_to_svg/scanners/horizontal.gd")

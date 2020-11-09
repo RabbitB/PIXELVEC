@@ -4,7 +4,7 @@
 [ext_resource path="res://fonts/labels.tres" type="DynamicFont" id=2]
 [ext_resource path="res://branding/icon_16.png" type="Texture" id=3]
 [ext_resource path="res://theme/edg8.theme" type="Theme" id=4]
-[ext_resource path="res://main_ui/output_controls/output_controls.gd" type="Script" id=5]
+[ext_resource path="res://main_ui/save_controls/save_controls.gd" type="Script" id=5]
 [ext_resource path="res://ui_helpers/full_window_file_dialog.gd" type="Script" id=6]
 
 [sub_resource type="StyleBoxEmpty" id=1]
@@ -15,7 +15,7 @@ action = "ui_accept"
 [sub_resource type="ShortCut" id=3]
 shortcut = SubResource( 2 )
 
-[node name="OutputControls" type="VBoxContainer"]
+[node name="SaveControls" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -25,11 +25,11 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-output_dir_dialog = NodePath("OutputDirDialog")
-output_dir_check_box = NodePath("Convert/PanelContainer/OutputDirCheckBox")
-output_dir_line_edit = NodePath("ChooseOutputLoc/LineEdit")
-browse_output_dir_btn = NodePath("ChooseOutputLoc/BrowseButton")
-convert_btn = NodePath("Convert/ConvertButton")
+output_dir_dialog = NodePath("../SaveControls/OutputDirDialog")
+output_dir_check_box = NodePath("../SaveControls/Convert/PanelContainer/OutputDirCheckBox")
+output_dir_line_edit = NodePath("../SaveControls/ChooseOutputLoc/LineEdit")
+browse_output_dir_btn = NodePath("../SaveControls/ChooseOutputLoc/BrowseButton")
+convert_btn = NodePath("../SaveControls/Convert/ConvertButton")
 
 [node name="OutputDirDialog" type="FileDialog" parent="."]
 anchor_right = 1.0

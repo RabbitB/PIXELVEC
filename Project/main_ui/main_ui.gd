@@ -3,18 +3,18 @@ extends MarginContainer
 
 const RasterToSVG: Script = preload("res://raster_to_svg/raster_to_svg.gd")
 const SourceImages: Script = preload("res://main_ui/source_images/source_images.gd")
-const OutputControls: Script = preload("res://main_ui/output_controls/output_controls.gd")
+const SaveControls: Script = preload("res://main_ui/save_controls/save_controls.gd")
 const LogViewer: Script = preload("res://main_ui/log_viewer/log_viewer.gd")
 
 export(NodePath) var source_images_ui: NodePath
-export(NodePath) var output_ui: NodePath
+export(NodePath) var save_ui: NodePath
 export(NodePath) var log_viewer: NodePath
 
 var _conversion_thread: Thread = Thread.new()
 var _conversion_done: bool = false
 
 onready var _source_images_ui: SourceImages = get_node(source_images_ui) as SourceImages
-onready var _output_ui: OutputControls = get_node(output_ui) as OutputControls
+onready var _save_ui: SaveControls = get_node(save_ui) as SaveControls
 onready var _log_viewer: LogViewer = get_node(log_viewer) as LogViewer
 
 
@@ -31,7 +31,7 @@ func _thread_finished():
 	_conversion_done = true
 
 
-func _on_OutputControls_convert_files() -> void:
+func _on_SaveControls_convert_files() -> void:
 	if _conversion_thread.is_active():
 		return
 
@@ -40,7 +40,7 @@ func _on_OutputControls_convert_files() -> void:
 	_source_images_ui.busy(true)
 
 	for file in files_to_convert:
-		var output_path: String = _output_ui.get_output_path(file)
+		var output_path: String = _save_ui.get_output_path(file)
 		var source_image: Image = Image.new()
 
 		var err: int = source_image.load(file)
@@ -51,7 +51,7 @@ func _on_OutputControls_convert_files() -> void:
 			continue
 
 		var raster_to_svg: RasterToSVG = RasterToSVG.new()
-		var args: Array = [source_image, raster_to_svg.ScanMode.NAIVE, self, "_thread_finished"]
+		var args: Array = [source_image, raster_to_svg.ScanMode.HORIZONTAL, self, "_thread_finished"]
 		_conversion_thread.start(raster_to_svg, "convert_image_threaded", args)
 
 		while !_conversion_done:
@@ -77,7 +77,7 @@ func _on_OutputControls_convert_files() -> void:
 	view_log(true)
 
 
-func _on_OutputControls_view_log() -> void:
+func _on_SaveControls_view_log() -> void:
 	view_log(true)
 
 
