@@ -1,15 +1,19 @@
 extends Control
 
 
+const OutputParams: Script = preload("res://main_ui/output_params/output_params.gd")
+
 export(NodePath) var choose_files_dialog: NodePath
 export(NodePath) var item_list: NodePath
 export(NodePath) var remove_file_btn: NodePath
 export(NodePath) var busy_indicator: NodePath
+export(NodePath) var output_params_ui: NodePath
 
 onready var _choose_files_dialog: FileDialog = get_node(choose_files_dialog) as FileDialog
 onready var _item_list: ItemList = get_node(item_list) as ItemList
 onready var _remove_file_btn: Button = get_node(remove_file_btn) as Button
 onready var _busy_indicator: AnimatedSprite = get_node(busy_indicator) as AnimatedSprite
+onready var _output_params_ui: OutputParams = get_node(output_params_ui) as OutputParams
 
 
 func _input(event: InputEvent) -> void:
@@ -52,6 +56,22 @@ func busy(is_busy: bool) -> void:
 		_busy_indicator.play("spinning")
 	else:
 		_busy_indicator.play("idle")
+
+
+func scan_mode() -> int:
+	return _output_params_ui.get_scan_mode()
+
+
+func unit_of_measurement() -> int:
+	return _output_params_ui.get_unit()
+
+
+func output_scale() -> float:
+	return _output_params_ui.get_svg_scale()
+
+
+func overdraw_amount() -> float:
+	return _output_params_ui.get_overdraw_amount()
 
 
 func _item_list_selection_changed() -> void:

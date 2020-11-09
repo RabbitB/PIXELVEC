@@ -51,8 +51,17 @@ func _on_SaveControls_convert_files() -> void:
 			continue
 
 		var raster_to_svg: RasterToSVG = RasterToSVG.new()
-		var args: Array = [source_image, raster_to_svg.ScanMode.HORIZONTAL, self, "_thread_finished"]
-		_conversion_thread.start(raster_to_svg, "convert_image_threaded", args)
+		var args: Array = [source_image,
+				_source_images_ui.scan_mode(),
+				_source_images_ui.unit_of_measurement(),
+				_source_images_ui.output_scale(),
+				_source_images_ui.overdraw_amount(),
+				self, "_thread_finished"]
+		err = _conversion_thread.start(raster_to_svg, "convert_image_threaded", args)
+		if err:
+			_log_viewer.log_error("CRITICAL ERROR: Could not spool up new work thread.")
+			view_log(true)
+			continue
 
 		while !_conversion_done:
 			yield(get_tree(), "idle_frame")

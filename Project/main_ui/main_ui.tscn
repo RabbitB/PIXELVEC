@@ -19,6 +19,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 source_images_ui = NodePath("Sections/SourceImages")
+save_ui = NodePath("Sections/SaveControls")
 log_viewer = NodePath("Sections/Log")
 
 [node name="Sections" type="VBoxContainer" parent="."]
@@ -40,9 +41,9 @@ remove_file_btn = NodePath("../SourceImages/SourceImages/ListControls/RemoveFile
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 287.0
+margin_top = 257.0
 margin_right = 392.0
-margin_bottom = 502.0
+margin_bottom = 510.0
 
 [node name="SaveControls" parent="Sections" instance=ExtResource( 1 )]
 anchor_right = 0.0

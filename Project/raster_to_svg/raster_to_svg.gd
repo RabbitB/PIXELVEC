@@ -2,7 +2,6 @@ extends Resource
 
 
 enum ScanMode {
-	NONE,
 	NAIVE,
 	HORIZONTAL,
 	VERTICAL,
@@ -40,9 +39,11 @@ func _init() -> void:
 	_xml_writer.set_attribute("xmlns", "http://www.w3.org/2000/svg", _svg)
 
 
-func convert_image(raster_image: Image, scan_mode: int) -> String:
-	_xml_writer.set_attribute("width", str(raster_image.get_width()), _svg)
-	_xml_writer.set_attribute("height", str(raster_image.get_height()), _svg)
+func convert_image(raster_image: Image, scan_mode: int, unit: int, scale: float, overdraw: float) -> String:
+	var unit_str: String = unit_to_str(unit)
+
+	_xml_writer.set_attribute("width", "%f%s" % [(raster_image.get_width() * scale), unit_str], _svg)
+	_xml_writer.set_attribute("height", "%f%s" % [(raster_image.get_height() * scale), unit_str], _svg)
 
 	var palette: Dictionary = palettize(raster_image)
 
@@ -53,7 +54,7 @@ func convert_image(raster_image: Image, scan_mode: int) -> String:
 			for pixel_color in palette:
 				var rects: Array = naive_scanner.get_vector_shapes(palette[pixel_color])
 				for rect in rects:
-					add_rect2(rect, pixel_color)
+					add_rect2(rect, pixel_color, unit_str, scale, overdraw)
 
 		ScanMode.HORIZONTAL:
 			var horizontal_scanner: HorizontalScanner = HorizontalScanner.new()
@@ -61,7 +62,7 @@ func convert_image(raster_image: Image, scan_mode: int) -> String:
 			for pixel_color in palette:
 				var rects: Array = horizontal_scanner.get_vector_shapes(palette[pixel_color])
 				for rect in rects:
-					add_rect2(rect, pixel_color)
+					add_rect2(rect, pixel_color, unit_str, scale, overdraw)
 		_:
 			pass
 
@@ -69,10 +70,10 @@ func convert_image(raster_image: Image, scan_mode: int) -> String:
 
 
 func convert_image_threaded(args: Array) -> String:
-	assert(args.size() == 4)
+	assert(args.size() == 7)
 
-	var output: String = convert_image(args[0], args[1])
-	args[2].call_deferred(args[3])
+	var output: String = convert_image(args[0], args[1], args[2], args[3], args[4])
+	args[5].call_deferred(args[6])
 
 	return output
 
@@ -98,12 +99,35 @@ func palettize(raster_image: Image) -> Dictionary:
 	return palette
 
 
-func add_rect2(rect: Rect2, color: Color) -> void:
+func add_rect2(rect: Rect2, color: Color, unit_str: String, scale: float, overdraw: float) -> void:
+	rect.position *= scale
+	rect.size *= scale
+	rect.position -= Vector2(overdraw, overdraw)
+	rect.size += Vector2(overdraw, overdraw)
+
 	var svg_rect: Dictionary = _xml_writer.add_element("rect", _svg)
-	_xml_writer.set_attribute("x", str(rect.position.x), svg_rect)
-	_xml_writer.set_attribute("y", str(rect.position.y), svg_rect)
-	_xml_writer.set_attribute("width", "1", svg_rect)
-	_xml_writer.set_attribute("height", "1", svg_rect)
+	_xml_writer.set_attribute("x", "%f%s" % [rect.position.x, unit_str], svg_rect)
+	_xml_writer.set_attribute("y", "%f%s" % [rect.position.y, unit_str], svg_rect)
+	_xml_writer.set_attribute("width", "%f%s" % [rect.size.x, unit_str], svg_rect)
+	_xml_writer.set_attribute("height", "%f%s" % [rect.size.y, unit_str], svg_rect)
 	_xml_writer.set_attribute("fill", "#%s" % color.to_html(false), svg_rect)
 	_xml_writer.set_attribute("fill-opacity", str(color.a), svg_rect)
+
+
+func unit_to_str(unit: int) -> String:
+	match (unit):
+		Unit.PX:
+			return "px"
+		Unit.PT:
+			return "pt"
+		Unit.PC:
+			return "pc"
+		Unit.MM:
+			return "mm"
+		Unit.CM:
+			return "cm"
+		Unit.IN:
+			return "in"
+		_:
+			return ""
 
