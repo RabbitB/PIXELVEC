@@ -18,6 +18,13 @@ onready var _save_ui: SaveControls = get_node(save_ui) as SaveControls
 onready var _log_viewer: LogViewer = get_node(log_viewer) as LogViewer
 
 
+func _ready() -> void:
+	var min_width: int = ProjectSettings.get_setting("display/window/size/min_width")
+	var min_height: int = ProjectSettings.get_setting("display/window/size/min_height")
+
+	OS.min_window_size = Vector2(min_width, min_height)
+
+
 func view_log(show: bool) -> void:
 	if show:
 		_log_viewer.show_log()

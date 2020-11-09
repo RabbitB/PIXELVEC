@@ -40,6 +40,8 @@ config/windows_native_icon="res://branding/icon.ico"
 [display]
 
 window/size/width=400
+window/size/min_width=400
+window/size/min_height=400
 
 [gui]
 

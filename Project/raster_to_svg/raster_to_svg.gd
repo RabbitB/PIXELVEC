@@ -15,11 +15,10 @@ enum Unit {
 	PC,
 	MM,
 	CM,
-	IN, 
-	EM, 
+	IN,
+	EM,
 	EX
 }
-
 
 const NaiveScanner: Script = preload("res://raster_to_svg/scanners/naive.gd")
 const HorizontalScanner: Script = preload("res://raster_to_svg/scanners/horizontal.gd")
