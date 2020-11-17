@@ -23,6 +23,7 @@ enum Unit {
 const NaiveScanner: Script = preload("res://raster_to_svg/scanners/naive.gd")
 const HorizontalScanner: Script = preload("res://raster_to_svg/scanners/horizontal.gd")
 const VerticalScanner: Script = preload("res://raster_to_svg/scanners/vertical.gd")
+const HorizontalWaveformScanner: Script = preload("res://raster_to_svg/scanners/horizontal_waveform.gd")
 
 var _xml_writer: XMLWriter
 var _svg: Dictionary
@@ -73,6 +74,18 @@ func convert_image(raster_image: Image, scan_mode: int, unit: int, scale: float,
 				var rects: Array = vertical_scanner.get_vector_shapes(palette[pixel_color])
 				for rect in rects:
 					add_rect2(rect, pixel_color, unit_str, scale, overdraw)
+
+		ScanMode.HORIZONTAL_WAVEFORM:
+			var horizontal_waveform_scanner: HorizontalWaveformScanner = HorizontalWaveformScanner.new()
+			var horizontal_scanner: HorizontalScanner = HorizontalScanner.new()
+
+			for pixel_color in palette:
+				var rects: Array = horizontal_scanner.get_vector_shapes(palette[pixel_color])
+				var paths: Array = horizontal_waveform_scanner.get_vector_shapes(rects, scale, overdraw)
+
+				for path in paths:
+					add_path(path, pixel_color, unit_str)
+
 		_:
 			pass
 
@@ -122,6 +135,25 @@ func add_rect2(rect: Rect2, color: Color, unit_str: String, scale: float, overdr
 	_xml_writer.set_attribute("height", "%f%s" % [rect.size.y, unit_str], svg_rect)
 	_xml_writer.set_attribute("fill", "#%s" % color.to_html(false), svg_rect)
 	_xml_writer.set_attribute("fill-opacity", str(color.a), svg_rect)
+
+
+# warning-ignore:unused_argument
+func add_path(path: Array, color: Color, unit_str: String) -> void:
+	var path_format: String = "M %f %f %s z"
+	var point_format: String = "L %f %f".repeat(path.size() - 1)
+	var point_components: Array = []
+
+	# The first point in the path is used in the move-to command, so we don't include it here.
+	for idx in range(1, path.size()):
+		point_components.append(path[idx].x)
+		point_components.append(path[idx].y)
+
+	var all_points: String = point_format % point_components
+
+	var svg_path: Dictionary = _xml_writer.add_element("path", _svg)
+	_xml_writer.set_attribute("d", path_format % [path[0].x, path[0].y, all_points], svg_path)
+	_xml_writer.set_attribute("fill", "#%s" % color.to_html(false), svg_path)
+	_xml_writer.set_attribute("fill-opacity", str(color.a), svg_path)
 
 
 func unit_to_str(unit: int) -> String:
